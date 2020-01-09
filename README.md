@@ -26,7 +26,7 @@ $ conda install cookiecutter
 ### To start a new project, run:
 ------------
 
-    cookiecutter https://gilab.com/apeelsciences/datascience/datacookiecutter
+    cookiecutter https://gilab.com/apeelsciences/datascience/projectcookiecutter
 
 
 ### The resulting directory structure
@@ -44,18 +44,10 @@ The directory structure of your new project looks like this:
 │   │   ├── external            <-- Outside data goes here
 │   │   ├── raw                 <-- raw, immutable data file
 │   │   └── transformed         <-- transformed, merged, etc version of raw data in `transformed.csv`
-│   ├── figures                 <-- .png etc files.
-│   ├── notebooks               <-- Jupyter notebooks, including EDA and formal reports.
-│   ├── predict                 <-- API code for trained models. Use base class `TrainedModel`.
-│   │   ├── __init__.py 
-│   │   └── predict.py          
-│   ├── train                   <-- Transform raw data and use transformed data to train models          
-│   │   ├── __init__.py
-│   │   ├── train.py            <-- Code that uses data in `transformed.csv` to train ML models and serialize them
-│   │   │                           in `trained_models`. Use base class `ModelTrainer`. 
-│   │   └── preprocess.py        <-- Transform data using DataTransformer
-│   │                           <-- Optional: if needed, add module `dataset.py` to make/query dataset
-│   └── trained_models          <-- Serialized trained models.
+│   ├── analyses                <-- All analysis work. Jupyter notebooks, including EDA and formal reports.
+│   ├── models                  <-- Models for deployment. Use modelcookiecutter for uniform dir structure for each model.       
+│   └── preprocessing           <-- Preprocessing functionality relevant across the whole project.
+│      
 ├── requirements.txt            <-- `pip freeze > requirements.txt` your vrtl env so that results can be reproduced. 
 ├── setup.py                    <-- make package installable with `pip install -e` and define `install_requirements`
 │                                   `setup.py` = abstract requirements,  requirements.txt => concrete (versioned)
