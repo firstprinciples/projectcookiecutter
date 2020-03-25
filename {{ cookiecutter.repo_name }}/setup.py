@@ -68,7 +68,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://gitlab.com/apeelsciences/datascience/projects/{{cookiecutter.repo_name}}",
     packages=setuptools.find_packages(exclude=['unit_tests']),
-    install_requires=['apeel_datatools', 'apeel_nirfirmness3'] + external_reqs,
+    install_requires=['apeel_datatools'] + external_reqs,
     package_data={'apeel_{{cookiecutter.repo_name}}': model_files},
     classifiers=[
         "Programming Language :: Python :: 3",
