@@ -26,7 +26,7 @@ $ conda install cookiecutter
 ### To start a new project, run:
 ------------
 
-    cookiecutter https://gilab.com/apeelsciences/datascience/projectcookiecutter
+    cookiecutter https://gilab.com/apeelsciences/datascience/projectcookiecutter.git
 
 
 ### The resulting directory structure
