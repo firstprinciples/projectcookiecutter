@@ -1,6 +1,6 @@
 # local package
+-e .
 -e ../../datatools/.
--e ../nirfirmness3/.
 
 # external requirements
 joblib==0.14.1
