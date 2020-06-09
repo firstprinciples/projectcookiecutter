@@ -13,15 +13,14 @@ Apeel Data Science Project Organization
 │   │                                       Increments correspond to <API change>.<Feature addition>.<Improvement>   
 │   ├── analyses                        <-- analysis work, jupyter notebooks, etc
 │   ├── data                            <-- All data files
-│   │   ├── external
 │   │   ├── raw
 │   │   └── transformed
 │   ├── models                          <-- models and their subfolder in here
+│   │   ├── deployed                    <-- models in this folder are installed with the package by default
 │   └── preprocessing                   <-- any refactor preprocessing files in here
-├── requirements.txt                    <-- keep this up to date so that a new user can
-│                                           pip install -r requirements.txt
-├── setup.py                            <-- make package installable with `pip install -e` and define `install_requirements`
-│                                           `setup.py` = abstract requirements,  requirements.txt => concrete (versioned)
+├── requirements.txt                    <-- keep this up to date so that a new user can pip install -r requirements.txt
+├── setup.py                            <-- make package installable with `pip install` and define `install_requirements`
+├── MANIFEST.in                         <-- grab files that are not `*.py` and install them with the package
 └── unit_tests
     └── test_environment.py
 ```
