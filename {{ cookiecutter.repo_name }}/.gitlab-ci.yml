@@ -1,0 +1,96 @@
+before_script:
+  - if [[ $CI_PIPELINE_SOURCE == "schedule" ]]; then echo "====     Scheduled Run `date +"%F %T %Z"`      ===="; else date +"%F %T %Z"; fi
+  - whoami
+  - printf "${CI_PIPELINE_SOURCE} from ${GITLAB_USER_EMAIL} to ${CI_COMMIT_REF_NAME} with message:\n${CI_COMMIT_MESSAGE}\nand description:\n${CI_COMMIT_DESCRIPTION}"
+  - python3.7 --version
+  - python3.7 -m pip config list
+  - export PYTHONPATH=$PYTHONPATH:"$PWD"
+  # Fix for pip issue with dependency versions from https://github.com/pypa/pip/issues/6275
+  - sudo python3.7 setup.py egg_info
+  - sudo python3.7 -m pip install --upgrade pip
+  - sudo python3.7 -m pip install -r requirements.txt --upgrade
+  # Clean up build artifacts. This is run in case the job times out and after_script is not called
+  - if [[ -e apeel_{{ cookiecutter.repo_name }}.egg-info || -e apeel_{{ cookiecutter.repo_name }}/__pycache__ ]]; then export USER=$(whoami) && export GROUP=$(id -gn) && sudo chown -R $USER:$GROUP *.egg-info apeel_{{ cookiecutter.repo_name }}/__pycache__; fi
+
+after_script:
+  - date
+  - pwd
+  - echo $(whoami)
+  # Clean up build artifacts. This should run even if errors occur in the before_script or script
+  - if [[ -e apeel_{{ cookiecutter.repo_name }}.egg-info || -e apeel_{{ cookiecutter.repo_name }}/__pycache__ ]]; then export USER=$(whoami) && export GROUP=$(id -gn) && sudo chown -R $USER:$GROUP *.egg-info apeel_{{ cookiecutter.repo_name }}/__pycache__; fi
+
+stages:
+  - test
+  - deploy
+  - tag
+
+unit_tests:
+  stage: test
+  tags:
+    - apeel
+  script:
+    - echo "==================================================="
+    - echo "====                Unit Tests                 ===="
+    - echo "==================================================="
+    - date
+    - pwd
+    - ls
+    - python3.7 -m unittest discover unit_tests
+
+# only run on merge to develop
+update_version:
+  stage: test
+  before_script:
+    - if [[ "${CI_COMMIT_MESSAGE}" != "Merge branch"* || "${CI_COMMIT_DESCRIPTION}" != *"merge request"* || "${CI_COMMIT_MESSAGE}" == "Merge branch 'master'"* || "${CI_COMMIT_MESSAGE}" == "[skip ci]"* ]]; then exit 0; fi
+  tags:
+    - apeel
+  only:
+    - develop
+  except:
+    # Don't run on scheduled runs.
+    - schedules
+  script:
+    - date
+    - pwd
+    - ls
+    - git --version
+    - python3.7 -m apeel_services.utilities.ci.update_version -p apeel_{{ cookiecutter.repo_name }}/__init__.py
+    - cat apeel_{{ cookiecutter.repo_name }}/__init__.py
+
+# only run on merge to master
+deploy_to_pypi:
+  stage: deploy
+  before_script:
+    - if [[ "${CI_COMMIT_MESSAGE}" != "Merge branch"* || "${CI_COMMIT_DESCRIPTION}" != *"merge request"* || "${CI_COMMIT_MESSAGE}" == "[skip ci]"* ]]; then exit 0; fi
+  tags:
+    - apeel
+  only:
+    - master
+  except:
+    # Don't run on scheduled runs.
+    - schedules
+  script:
+    - date
+    - pwd
+    - ls
+    - git --version
+    - cat apeel_{{ cookiecutter.repo_name }}/__init__.py
+    - python3.7 setup.py sdist upload -r apeel
+
+tag:
+  stage: tag
+  before_script:
+    - which python3.7
+  tags:
+    - apeel
+  only:
+    - master
+  except:
+    # Don't run on scheduled runs.
+    - schedules
+  script:
+    - date
+    - pwd
+    - ls
+    - git --version
+    - python3.7 -m apeel_services.utilities.ci.tag_version -p apeel_{{ cookiecutter.repo_name }}/__init__.py
