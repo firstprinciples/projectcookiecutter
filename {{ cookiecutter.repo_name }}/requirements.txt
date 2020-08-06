@@ -1,5 +1,4 @@
 # local package
--e ../../datatools/.
 -e .
 
 # external requirements
