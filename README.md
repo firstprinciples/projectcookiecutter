@@ -1,4 +1,4 @@
-# Apeel Data Science Cookiecutter
+# Firstprinciples Cookiecutter
 
 _A logical, reasonably standardized, but flexible project structure for doing and sharing data science work._
 
@@ -26,7 +26,7 @@ $ conda install cookiecutter
 ### To start a new project, run:
 ------------
 
-    cookiecutter https://gilab.com/apeelsciences/datascience/projectcookiecutter.git
+    cookiecutter https://gilab.com/firstprinciples/projectcookiecutter.git
 
 
 ### The resulting directory structure
@@ -37,7 +37,7 @@ The directory structure of your new project looks like this:
 ```
 .
 ├── README.md                   <-- Project README
-├── apeel_{{ cookiecutter.repo_name }}  <-- package, named `apeel_<repo-name>` to avoid PyPI naming conflicts
+├── fps_{{ cookiecutter.repo_name }}  <-- package, named `fps_<repo-name>` to avoid PyPI naming conflicts
 │   ├── __init__.py             <-- Specify version number of package. <major>.<minor>.<build>
 │   │                               Increments correspond to <API change>.<Feature addition>.<Improvement>    
 │   ├── data                    <-- All data files

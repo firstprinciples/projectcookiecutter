@@ -3,12 +3,12 @@
 
 {{cookiecutter.description}}
 
-Apeel Data Science Project Organization
+First Principles Project Organization
 ------------
 ```
 .
 ├── README.md                           <-- This README
-├── apeel_{{ cookiecutter.repo_name }}  <-- package, named `apeel_<repo-name>` to avoid PyPI naming conflicts
+├── fps_{{ cookiecutter.repo_name }}  <-- package, named `fps_<repo-name>` to avoid PyPI naming conflicts
 │   ├── __init__.py                     <-- Specify version number of package. <major>.<minor>.<build>
 │   │                                       Increments correspond to <API change>.<Feature addition>.<Improvement>   
 │   ├── analyses                        <-- analysis work, jupyter notebooks, etc
